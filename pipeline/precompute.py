@@ -82,6 +82,70 @@ def build_voxcity(rect, mesh, cache_key):
     return vc
 
 
+def apply_meta_canopy(vc, rect, mesh, cache_key):
+    """Merge Meta 1m canopy heights into the model and re-voxelize.
+
+    Meta CHM supersedes/augments the sparse OSM tree points (elementwise max).
+    Canopy on building footprints is dropped (CHM sometimes reads rooftops or
+    green roofs as canopy, which would shade streets that aren't shaded).
+    """
+    import pickle as _pickle
+
+    cache = CACHE_DIR / f"voxcity_{cache_key}_canopy.pkl"
+    if cache.exists():
+        print(f"[canopy] voxcity cache hit: {cache}")
+        with open(cache, "rb") as f:
+            return _pickle.load(f)
+
+    from meta_canopy import fetch_meta_canopy_tif
+    from voxcity.geoprocessor.raster.raster import create_height_grid_from_geotiff_polygon
+    from voxcity.generator.pipeline import VoxCityPipeline
+    from voxcity.generator.voxelizer import Voxelizer
+
+    tif = fetch_meta_canopy_tif(rect, CACHE_DIR / f"meta_chm_{cache_key}.tif")
+    meta_top = create_height_grid_from_geotiff_polygon(tif, mesh, rect)
+    meta_top = np.nan_to_num(meta_top, nan=0.0)
+    meta_top[meta_top < 2.0] = 0.0                    # noise floor
+    meta_top[vc.buildings.heights > 0] = 0.0          # no phantom rooftop trees
+
+    trunk_ratio = vc.extras.get("trunk_height_ratio") or (11.76 / 19.98)
+    canopy_top = np.maximum(vc.tree_canopy.top, meta_top)
+    canopy_bottom = canopy_top * float(trunk_ratio)
+
+    n_before = int((vc.tree_canopy.top >= 2).sum())
+    n_after = int((canopy_top >= 2).sum())
+    print(f"[canopy] tree cells: {n_before} (OSM) -> {n_after} (merged with Meta CHM)")
+
+    voxelizer = Voxelizer(
+        voxel_size=mesh,
+        land_cover_source=vc.extras.get("land_cover_source", "OpenStreetMap"),
+        trunk_height_ratio=float(trunk_ratio),
+    )
+    vox = voxelizer.generate_combined(
+        building_height_grid_ori=vc.buildings.heights,
+        building_min_height_grid_ori=vc.buildings.min_heights,
+        building_id_grid_ori=vc.buildings.ids,
+        land_cover_grid_ori=vc.land_cover.classes,
+        dem_grid_ori=vc.dem.elevation,
+        tree_grid_ori=canopy_top,
+        canopy_bottom_height_grid_ori=canopy_bottom,
+    )
+    vc2 = VoxCityPipeline(mesh, rect).assemble_voxcity(
+        voxcity_grid=vox,
+        building_height_grid=vc.buildings.heights,
+        building_min_height_grid=vc.buildings.min_heights,
+        building_id_grid=vc.buildings.ids,
+        land_cover_grid=vc.land_cover.classes,
+        dem_grid=vc.dem.elevation,
+        canopy_height_top=canopy_top,
+        canopy_height_bottom=canopy_bottom,
+        extras=vc.extras,
+    )
+    with open(cache, "wb") as f:
+        _pickle.dump(vc2, f)
+    return vc2
+
+
 def get_walk_graph(rect, cache_key):
     import osmnx as ox
     from shapely.geometry import Polygon
@@ -147,17 +211,22 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--test", action="store_true", help="small tile sanity run")
     ap.add_argument("--mesh", type=float, default=MESH)
+    ap.add_argument("--meta-canopy", action="store_true",
+                    help="merge Meta 1m canopy heights (CC-BY) for real tree shade")
     args = ap.parse_args()
 
     w, h = (TEST_W, TEST_H) if args.test else (FULL_W, FULL_H)
-    key = f"sg_{'test' if args.test else 'full'}_{int(w)}x{int(h)}_m{args.mesh:g}"
+    base_key = f"sg_{'test' if args.test else 'full'}_{int(w)}x{int(h)}_m{args.mesh:g}"
+    key = base_key + ("_canopy" if args.meta_canopy else "")
     rect = rectangle_from_center(CENTER_LAT, CENTER_LON, w, h)
     print(f"[area] {w}x{h} m around ({CENTER_LAT}, {CENTER_LON}), mesh {args.mesh} m")
 
-    vc = build_voxcity(rect, args.mesh, key)
+    vc = build_voxcity(rect, args.mesh, base_key)
+    if args.meta_canopy:
+        vc = apply_meta_canopy(vc, rect, args.mesh, base_key)
     print(f"[voxcity] voxel grid: {vc.voxels.classes.shape}")
 
-    G = get_walk_graph(rect, key)
+    G = get_walk_graph(rect, base_key)  # network is canopy-independent
     print(f"[graph] {len(G.nodes)} nodes, {len(G.edges)} edges")
 
     sun = sun_positions(rect)
