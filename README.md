@@ -10,6 +10,8 @@ Demo area: Singapore CBD / Chinatown / Marina Bay.
 ```
 pipeline/precompute.py  (Python, offline, once per city)
   ├─ VoxCity: voxel 3D model from OSM buildings + OSM trees, flat DEM (keyless, no GEE)
+  ├─ --meta-canopy: Meta/WRI 1m canopy heights (CC-BY) via windowed COG reads
+  │    from public S3 — real tree shade, still no keys (meta_canopy.py)
   ├─ Ray-traced sun exposure at 1.5 m pedestrian height,
   │    hourly 08:00–19:00 SGT × 3 dates (equinox + solstices)
   ├─ Exposure mapped onto the OSM walking network (length-weighted per edge)
@@ -29,10 +31,10 @@ No API keys, no backend: all data comes from OSM + astronomy, routing runs on-de
 ```bash
 # precompute (test tile: 600 m; full: 2 km)
 ./.venv/bin/python pipeline/precompute.py --test
-./.venv/bin/python pipeline/precompute.py
+./.venv/bin/python pipeline/precompute.py --meta-canopy
 
 # copy output into the app
-cp data/sg_full_2000x2000_m2.json app/assets/singapore.json
+cp data/sg_full_2000x2000_m2_canopy.json app/assets/singapore.json
 
 # run the app (Expo Go on iPhone)
 cd app && npx expo start
@@ -47,7 +49,6 @@ cd app && npx expo start
 
 ## Roadmap
 
-- v1.1: tree canopy from Meta 1m global canopy (CC-BY, via AWS) for real tree shade
 - Live cloud check (Open-Meteo, free) — "it's cloudy, walk wherever you want, king"
 - More neighborhoods / cities; move routing server-side when coverage grows
 - Share cards ("I saved 14 sun-minutes 🧊")
