@@ -1,17 +1,27 @@
 {
   "expo": {
-    "name": "Shady",
-    "slug": "shady",
+    "name": "Vampmaps",
+    "slug": "vampmaps",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#FFF7ED"
+    },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.milindsoni.vampmaps",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Vampmaps uses your location to start shade routes from where you're standing."
+      }
     },
     "android": {
+      "package": "com.milindsoni.vampmaps",
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
+        "backgroundColor": "#FFF7ED",
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
@@ -20,6 +30,7 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": ["expo-font"]
   }
 }
