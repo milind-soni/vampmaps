@@ -1,4 +1,4 @@
-# Vamp interface system
+# ShadeMax interface system
 
 ## Product hierarchy
 

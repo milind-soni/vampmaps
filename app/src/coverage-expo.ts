@@ -11,7 +11,7 @@ import type {
 } from "./coverage-client";
 import { CoverageError } from "./coverage-model";
 
-const DEFAULT_DIRECTORY = "vamp-coverage-v1";
+const DEFAULT_DIRECTORY = "shademax-coverage-v1";
 const SAFE_FILE_NAME = /^[a-z0-9][a-z0-9._-]{0,255}$/;
 
 function assertSafeFileName(fileName: string): void {

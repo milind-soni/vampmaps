@@ -1,4 +1,4 @@
-"""Cross-check Vamp's sampled solar positions against NREL SPA via pvlib.
+"""Cross-check ShadeMax's sampled solar positions against NREL SPA via pvlib.
 
 This validates only the astronomy inputs to ray tracing. It does not validate
 the voxel geometry, shadows, walking graph, or route recommendations.
@@ -77,7 +77,7 @@ def validate_city(city, spa_python, year: int) -> Errors:
     )
     azimuth_array = np.asarray(azimuth)
     elevation_array = np.asarray(elevation)
-    # Low-angle samples are intentionally excluded by Vamp's model. Compare
+    # Low-angle samples are intentionally excluded by ShadeMax's model. Compare
     # only the solar positions that can actually feed the ray tracer.
     modeled = elevation_array >= MIN_SUN_ELEV_DEG
     return Errors(

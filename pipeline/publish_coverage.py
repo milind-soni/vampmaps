@@ -1,4 +1,4 @@
-"""Publish precomputed Vamp graphs as static, content-addressed area bundles.
+"""Publish precomputed ShadeMax graphs as static, content-addressed area bundles.
 
 The output is deliberately host-agnostic: ``manifest.json`` only contains
 relative bundle URLs, so the directory can be copied to any HTTPS static host
@@ -7,7 +7,7 @@ manifest the atomic commit point for a publication.
 
 Examples:
     python pipeline/publish_coverage.py
-    python pipeline/publish_coverage.py --output /tmp/vamp-coverage
+    python pipeline/publish_coverage.py --output /tmp/shademax-coverage
     python pipeline/publish_coverage.py --source data/my-area.json
     python pipeline/publish_coverage.py --source my-area=data/my-area.json
 """

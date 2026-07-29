@@ -190,7 +190,7 @@ export function matchCoverageViewport(
 
 export function coverageRequestKey(
   viewport: CoverageViewport,
-  profile = "vamp-walk-shade-v1",
+  profile = "shademax-walk-shade-v1",
 ): string {
   const normalized = viewport.bbox.map((value) => value.toFixed(5)).join(",");
   return `v1:${profile}:${normalized}`;
@@ -282,7 +282,7 @@ export async function requestCoverageViewport({
   if (typeof fetcher !== "function") {
     throw new CoverageViewportError("request-failed", "This device cannot submit coverage requests.");
   }
-  const profile = "vamp-walk-shade-v1";
+  const profile = "shademax-walk-shade-v1";
   const response = await fetcher(requestEndpoint(endpoint, allowInsecureHttp), {
     method: "POST",
     headers: {

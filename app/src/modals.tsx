@@ -15,7 +15,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { CITIES, type CityDefinition, type LoadedCityDefinition } from "./cities";
 import { AppSymbol } from "./components";
 import { CheckIcon } from "./icons";
-import { R, T, useVampTheme, type VampTheme } from "./theme";
+import { R, T, useShadeMaxTheme, type ShadeMaxTheme } from "./theme";
 
 const worldMascot = require("../assets/mascot-vamp-world.png");
 const accuracyMascot = require("../assets/mascot-vamp-accuracy.png");
@@ -43,7 +43,7 @@ export function CityPicker({
   onSelect: (city: CityDefinition) => void;
   onClose: () => void;
 }) {
-  const theme = useVampTheme();
+  const theme = useShadeMaxTheme();
   const styles = useMemo(() => makeStyles(theme), [theme]);
 
   return (
@@ -136,7 +136,7 @@ function cityStatusLabel(status: CityPickerStatus, active: boolean): string {
 }
 
 function CityStatus({ status }: { status: CityPickerStatus }) {
-  const theme = useVampTheme();
+  const theme = useShadeMaxTheme();
   if (status.kind === "checking" || status.kind === "downloading" || status.kind === "verifying") {
     return (
       <View style={shared.statusBusy}>
@@ -183,7 +183,7 @@ export function AccuracySheet({
   onClose: () => void;
   onReplay: () => void;
 }) {
-  const theme = useVampTheme();
+  const theme = useShadeMaxTheme();
   const styles = useMemo(() => makeStyles(theme), [theme]);
   const meta = city.data.meta;
   const modelDate = meta.solar_year ?? 2025;
@@ -252,7 +252,7 @@ export function AccuracySheet({
 }
 
 function SheetHeader({ title, onClose }: { title: string; onClose: () => void }) {
-  const theme = useVampTheme();
+  const theme = useShadeMaxTheme();
   return (
     <View style={shared.header}>
       <Text accessibilityRole="header" style={[T.largeTitle, { color: theme.ink }]}>{title}</Text>
@@ -270,7 +270,7 @@ function SheetHeader({ title, onClose }: { title: string; onClose: () => void })
 }
 
 function Detail({ label, value }: { label: string; value: string }) {
-  const theme = useVampTheme();
+  const theme = useShadeMaxTheme();
   return (
     <View style={[shared.detail, { backgroundColor: theme.field }]}>
       <Text style={[T.caption, { color: theme.inkMuted }]}>{label}</Text>
@@ -280,7 +280,7 @@ function Detail({ label, value }: { label: string; value: string }) {
 }
 
 function Bullet({ children }: { children: React.ReactNode }) {
-  const theme = useVampTheme();
+  const theme = useShadeMaxTheme();
   return (
     <View style={shared.bulletRow}>
       <View style={[shared.bullet, { backgroundColor: theme.inkMuted }]} />
@@ -290,7 +290,7 @@ function Bullet({ children }: { children: React.ReactNode }) {
 }
 
 function SourceLink({ label, url }: { label: string; url: string }) {
-  const theme = useVampTheme();
+  const theme = useShadeMaxTheme();
   return (
     <Pressable
       accessibilityRole="link"
@@ -303,7 +303,7 @@ function SourceLink({ label, url }: { label: string; url: string }) {
   );
 }
 
-function makeStyles(theme: VampTheme) {
+function makeStyles(theme: ShadeMaxTheme) {
   return StyleSheet.create({
     safe: { flex: 1, backgroundColor: theme.canvas },
     content: { padding: 22, paddingBottom: 40, gap: 16 },

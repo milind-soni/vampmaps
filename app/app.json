@@ -1,19 +1,19 @@
 {
   "expo": {
-    "name": "Vamp",
-    "slug": "vamp",
+    "name": "ShadeMax",
+    "slug": "shademax",
     "version": "1.0.0",
     "icon": "./assets/vamp-sun-horizon-icon.png",
     "userInterfaceStyle": "automatic",
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.milindsoni.vampmaps",
+      "bundleIdentifier": "com.milindsoni.shademax",
       "infoPlist": {
-        "NSLocationWhenInUseUsageDescription": "Vamp uses your location to start shade routes from where you're standing."
+        "NSLocationWhenInUseUsageDescription": "ShadeMax uses your location to start shade routes from where you're standing."
       }
     },
     "android": {
-      "package": "com.milindsoni.vampmaps",
+      "package": "com.milindsoni.shademax",
       "adaptiveIcon": {
         "backgroundColor": "#4E234B",
         "foregroundImage": "./assets/vamp-sun-horizon-icon.png"

@@ -72,9 +72,9 @@ export const DARK = {
   dangerSoft: "#402624",
 } as const;
 
-export type VampTheme = typeof LIGHT | typeof DARK;
+export type ShadeMaxTheme = typeof LIGHT | typeof DARK;
 
-export function useVampTheme(): VampTheme {
+export function useShadeMaxTheme(): ShadeMaxTheme {
   return useColorScheme() === "dark" ? DARK : LIGHT;
 }
 
@@ -109,7 +109,7 @@ export const F = {
   bold: "OpenRunde-Bold",
 } as const;
 
-/** Semantic iOS-scale typography. Open Runde is reserved for Vamp's voice. */
+/** Semantic iOS-scale typography. Open Runde is reserved for ShadeMax's voice. */
 export const T = {
   caption: { fontSize: 12, lineHeight: 16, fontFamily: F.medium } as const,
   footnote: { fontSize: 13, lineHeight: 18, fontFamily: F.medium } as const,

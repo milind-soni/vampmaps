@@ -12,7 +12,7 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { AppSymbol } from "./components";
-import { R, T, useVampTheme } from "./theme";
+import { R, T, useShadeMaxTheme } from "./theme";
 
 export function BottomSheet({
   expanded,
@@ -31,7 +31,7 @@ export function BottomSheet({
   onVisibleHeightChange?: (height: number) => void;
   children: React.ReactNode;
 }) {
-  const theme = useVampTheme();
+  const theme = useShadeMaxTheme();
   const insets = useSafeAreaInsets();
   const { height } = useWindowDimensions();
   const maxHeight = Math.max(collapsedHeight, Math.min(height - insets.top - 72, 720));

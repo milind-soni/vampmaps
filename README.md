@@ -1,6 +1,6 @@
-# Vamp
+# ShadeMax
 
-Vamp helps people choose the light they want: a sunnier walk, a shadier walk,
+ShadeMax helps people choose the light they want: a sunnier walk, a shadier walk,
 or the fastest balanced option. Routing runs on-device; the 3D sun-and-shade
 model is precomputed offline.
 
@@ -53,7 +53,7 @@ npx expo start --ios
 Development defaults to `http://127.0.0.1:8791/manifest.json`. Store builds
 must set `EXPO_PUBLIC_COVERAGE_MANIFEST_URL` to the deployed HTTPS manifest;
 an optional `EXPO_PUBLIC_COVERAGE_REQUEST_URL` enables honest asynchronous
-requests for views that do not yet have a published pack. Without it, Vamp
+requests for views that do not yet have a published pack. Without it, ShadeMax
 simply says that the area is not ready rather than pretending to generate it.
 see [`app/.env.example`](app/.env.example) and
 [`docs/coverage-delivery.md`](docs/coverage-delivery.md).
@@ -90,7 +90,7 @@ and VoxCity's downloaders try it before the public mirrors.
 cd app
 npm run check
 npx expo-doctor
-EXPO_PUBLIC_COVERAGE_MANIFEST_URL=https://cdn.example.com/vamp/coverage/manifest.json \
+EXPO_PUBLIC_COVERAGE_MANIFEST_URL=https://cdn.example.com/shademax/coverage/manifest.json \
   npx expo export --platform ios
 npm audit --omit=dev
 ```

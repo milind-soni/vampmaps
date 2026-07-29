@@ -68,7 +68,7 @@ import { BoltIcon, FlagIcon, GpsIcon, LeafIcon, SunIcon } from "./src/icons";
 import { LIGHT_PREFERENCES } from "./src/melt";
 import { AccuracySheet, CityPicker, type CityPickerStatus } from "./src/modals";
 import { WelcomeScreen } from "./src/onboarding";
-import { F, R, T, useVampTheme, type VampTheme } from "./src/theme";
+import { F, R, T, useShadeMaxTheme, type ShadeMaxTheme } from "./src/theme";
 import {
   CoverageViewportError,
   matchCoverageViewport,
@@ -78,8 +78,8 @@ import {
   type CoverageViewport,
 } from "./src/viewport-coverage";
 
-const ONBOARDING_KEY = "vamp:onboarding:v1";
-const CITY_KEY = "vamp:selected-city:v1";
+const ONBOARDING_KEY = "shademax:onboarding:v1";
+const CITY_KEY = "shademax:selected-city:v1";
 const BUNDLED_COVERAGE_VERSION = "34a2b97ce5b8ef67274984b427fc6186984ef340818307eb19332c33f3293cd3";
 const CONFIGURED_COVERAGE_MANIFEST_URL = process.env.EXPO_PUBLIC_COVERAGE_MANIFEST_URL;
 const COVERAGE_REQUEST_URL = process.env.EXPO_PUBLIC_COVERAGE_REQUEST_URL;
@@ -179,7 +179,7 @@ function pickerStatus(snapshot: CoverageSnapshot, cityId: string): CityPickerSta
   }
 }
 
-function expColor(exposure: number, theme: VampTheme): string {
+function expColor(exposure: number, theme: ShadeMaxTheme): string {
   const t = Math.min(1, Math.max(0, exposure));
   const shade = theme.isDark ? [88, 194, 174] : [14, 116, 106];
   const sun = theme.isDark ? [240, 174, 93] : [180, 95, 29];
@@ -190,13 +190,13 @@ function expColor(exposure: number, theme: VampTheme): string {
 export default function App() {
   return (
     <SafeAreaProvider>
-      <Vamp />
+      <ShadeMax />
     </SafeAreaProvider>
   );
 }
 
-function Vamp() {
-  const theme = useVampTheme();
+function ShadeMax() {
+  const theme = useShadeMaxTheme();
   const styles = useMemo(() => makeStyles(theme), [theme]);
   const insets = useSafeAreaInsets();
   const { height, fontScale } = useWindowDimensions();
@@ -672,7 +672,7 @@ function Vamp() {
         reduceMotion ? 0 : 450,
       );
     } catch {
-      setCoverageNotice("Vamp couldn’t get your location.");
+      setCoverageNotice("ShadeMax couldn’t get your location.");
     } finally {
       setCoverageLocationBusy(false);
     }
@@ -829,7 +829,7 @@ function Vamp() {
       setLocationState("idle");
     } catch {
       setLocationState("error");
-      setNotice("Vamp couldn’t get your location. Search or choose a start on the map.");
+      setNotice("ShadeMax couldn’t get your location. Search or choose a start on the map.");
     }
   };
 
@@ -837,7 +837,7 @@ function Vamp() {
     if (!fastest || !preferred) return;
     const selected = activeFocus === "preferred" ? preferred : fastest;
     await Share.share({
-      message: `Vamp found a ${Math.round(selected.walkMin)} min walk in ${city.name} with about ${selected.sunMin.toFixed(1)} direct-sun-equivalent minutes. Experimental clear-sky estimate.`,
+      message: `ShadeMax found a ${Math.round(selected.walkMin)} min walk in ${city.name} with about ${selected.sunMin.toFixed(1)} direct-sun-equivalent minutes. Experimental clear-sky estimate.`,
     });
   };
 
@@ -1084,7 +1084,7 @@ function Vamp() {
             <View style={[styles.topDivider, { backgroundColor: theme.separator }]} />
             <Pressable
               accessibilityRole="button"
-              accessibilityLabel="How Vamp estimates sun and shade"
+              accessibilityLabel="How ShadeMax estimates sun and shade"
               onPress={() => setAccuracyVisible(true)}
               style={({ pressed }) => [styles.topIconButton, pressed && styles.pressed]}
             >
@@ -1394,7 +1394,7 @@ function RouteResults({
   onFocus: (focus: "preferred" | "fastest") => void;
   onEdit: () => void;
 }) {
-  const theme = useVampTheme();
+  const theme = useShadeMaxTheme();
   const status = sunBelowHorizon
     ? "No direct sun right now"
     : lowSunNotModeled
@@ -1484,7 +1484,7 @@ function PlaceField({
   onChooseMap: () => void;
   onLocation?: () => void;
 }) {
-  const theme = useVampTheme();
+  const theme = useShadeMaxTheme();
   return (
     <View style={[fieldStyles.field, { backgroundColor: theme.field, borderColor: theme.separator }]}>
       <View style={[fieldStyles.labelCircle, { backgroundColor: label === "From" ? theme.accent : theme.accentSoft }]}>
@@ -1527,7 +1527,7 @@ function PlaceField({
 }
 
 function InlineNotice({ text, tone }: { text: string; tone: "info" | "warning" }) {
-  const theme = useVampTheme();
+  const theme = useShadeMaxTheme();
   const warning = tone === "warning";
   return (
     <View
@@ -1574,7 +1574,7 @@ function sameRoute(a: Route, b: Route): boolean {
   return a.edgePath.length === b.edgePath.length && a.edgePath.every((edge, index) => edge === b.edgePath[index]);
 }
 
-function makeStyles(theme: VampTheme) {
+function makeStyles(theme: ShadeMaxTheme) {
   return StyleSheet.create({
     container: { flex: 1, backgroundColor: theme.canvas },
     loading: { flex: 1, alignItems: "center", justifyContent: "center" },

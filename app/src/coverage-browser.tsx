@@ -4,7 +4,7 @@ import { ActivityIndicator, Pressable, StyleSheet, Text, View } from "react-nati
 import { AppSymbol, GlassSurface } from "./components";
 import type { CoverageProgressPresentation } from "./coverage-progress";
 import { GpsIcon, MapPointIcon } from "./icons";
-import { R, T, shadow, useVampTheme, type VampTheme } from "./theme";
+import { R, T, shadow, useShadeMaxTheme, type ShadeMaxTheme } from "./theme";
 
 export function CoverageBrowserOverlay({
   topInset,
@@ -39,7 +39,7 @@ export function CoverageBrowserOverlay({
   onOpenAreas: () => void;
   onClose: () => void;
 }) {
-  const theme = useVampTheme();
+  const theme = useShadeMaxTheme();
   const styles = useMemo(() => makeStyles(theme), [theme]);
 
   return (
@@ -133,7 +133,7 @@ export function CoverageBrowserOverlay({
 }
 
 function CoverageProgress({ progress }: { progress: CoverageProgressPresentation }) {
-  const theme = useVampTheme();
+  const theme = useShadeMaxTheme();
   const styles = useMemo(() => makeStyles(theme), [theme]);
   const fraction = progress.fraction === null
     ? null
@@ -194,7 +194,7 @@ function formatBytes(bytes: number): string {
   return `${(bytes / 1_000_000).toFixed(1)} MB`;
 }
 
-function makeStyles(theme: VampTheme) {
+function makeStyles(theme: ShadeMaxTheme) {
   return StyleSheet.create({
     flex: { flex: 1 },
     topWrap: { position: "absolute", left: 14, right: 14, top: 0 },

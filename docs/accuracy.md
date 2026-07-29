@@ -2,7 +2,7 @@
 
 ## Current status
 
-Vamp is an **experimental clear-sky screening model**, not a field-validated
+ShadeMax is an **experimental clear-sky screening model**, not a field-validated
 measurement system. It can compare two modeled walking routes, but there is not
 yet an evidence-based end-to-end “route accuracy” percentage. The app should not
 promise guaranteed shade, exact time in sunlight, thermal comfort, or heat
@@ -67,12 +67,12 @@ That is a coverage statistic—not 97.995% accuracy.
 The pipeline’s solar samples have now been independently cross-checked with
 `pipeline/validate_solar.py` against pvlib’s implementation of [NREL’s Solar
 Position Algorithm](https://midcdmz.nrel.gov/spa/). Across the 251 samples at
-or above Vamp’s 4° modeling cutoff in all eight city presets, Astral differed
+or above ShadeMax’s 4° modeling cutoff in all eight city presets, Astral differed
 from SPA by a mean/maximum of 0.0039°/0.0581° in azimuth and
 0.0025°/0.0048° in apparent elevation. The comparison uses standard atmosphere
 inputs and passes declared limits of 0.1° azimuth and 0.02° elevation. This
 validates only sampled sun direction—not shadows, exposure, or routes. NREL
-reports ±0.0003° uncertainty for *its algorithm*; Vamp does not inherit that
+reports ±0.0003° uncertainty for *its algorithm*; ShadeMax does not inherit that
 figure.
 
 The [Meta canopy-height study](https://doi.org/10.1016/j.rse.2023.113888)
@@ -92,8 +92,8 @@ be converted into one end-to-end percentage, and the errors are correlated.
 The [VoxCity paper](https://arxiv.org/abs/2504.13934) demonstrates open-data 3D
 model generation, ray-traced solar simulations, and aggregation onto OSM road
 networks. It does not establish a field-validated accuracy percentage for
-Vamp’s inputs, temporal sampling, routing objective, or route recommendations.
-Paired observations of Vamp’s predicted routes have not yet been collected.
+ShadeMax’s inputs, temporal sampling, routing objective, or route recommendations.
+Paired observations of ShadeMax’s predicted routes have not yet been collected.
 
 ## Principal error sources
 

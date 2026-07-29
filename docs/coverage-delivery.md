@@ -1,6 +1,6 @@
 # Downloadable coverage delivery
 
-Vamp coverage should be generated offline, published once, and downloaded only
+ShadeMax coverage should be generated offline, published once, and downloaded only
 when someone chooses an area. A phone should never run VoxCity or wait on OSM,
 canopy, voxelization, and solar ray tracing during a tap.
 
@@ -66,7 +66,7 @@ collected only after a safe retention window.
 Set the catalog URL at build time:
 
 ```bash
-EXPO_PUBLIC_COVERAGE_MANIFEST_URL=https://cdn.example.com/vamp/coverage/manifest.json \
+EXPO_PUBLIC_COVERAGE_MANIFEST_URL=https://cdn.example.com/shademax/coverage/manifest.json \
   npx expo export --platform ios
 ```
 
@@ -76,7 +76,7 @@ a store binary cannot silently ship with a localhost data source. Keep the
 production value HTTPS; the client rejects insecure non-local bundle URLs.
 
 The map-first area picker uses each manifest entry's bounds. The user pans and
-zooms, places the fixed target over an area, and taps **Fetch this area**. Vamp
+zooms, places the fixed target over an area, and taps **Fetch this area**. ShadeMax
 prefers a published pack that contains the target and substantially overlaps
 the viewport; an overly broad view asks the user to zoom in instead of silently
 selecting a tiny tile. A secondary list remains available for accessibility and
@@ -141,7 +141,7 @@ Minimal request:
 ```http
 POST /v1/coverage-requests
 Content-Type: application/json
-Idempotency-Key: v1:vamp-walk-shade-v1:<normalized-bounds>
+Idempotency-Key: v1:shademax-walk-shade-v1:<normalized-bounds>
 ```
 
 ```json
@@ -151,7 +151,7 @@ Idempotency-Key: v1:vamp-walk-shade-v1:<normalized-bounds>
   "center": [103.849, 1.284],
   "widthMeters": 2003,
   "heightMeters": 2004,
-  "modelProfile": "vamp-walk-shade-v1"
+  "modelProfile": "shademax-walk-shade-v1"
 }
 ```
 

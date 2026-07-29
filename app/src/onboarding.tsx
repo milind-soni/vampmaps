@@ -14,7 +14,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Svg, { Path } from "react-native-svg";
 
 import { AppSymbol } from "./components";
-import { R, T, useVampTheme, type VampTheme } from "./theme";
+import { R, T, useShadeMaxTheme, type ShadeMaxTheme } from "./theme";
 
 const pages = [
   {
@@ -33,7 +33,7 @@ const pages = [
     key: "accuracy",
     mascot: require("../assets/mascot-vamp-accuracy.png"),
     title: "Check real conditions.",
-    body: "Vamp estimates direct sun—not heat or UV.",
+    body: "ShadeMax estimates direct sun—not heat or UV.",
   },
 ] as const;
 
@@ -44,7 +44,7 @@ export function WelcomeScreen({
   onTrySample: () => void;
   onExplore: () => void;
 }) {
-  const theme = useVampTheme();
+  const theme = useShadeMaxTheme();
   const { height, fontScale } = useWindowDimensions();
   const styles = useMemo(() => makeStyles(theme), [theme]);
   const compact = height < 760;
@@ -150,7 +150,7 @@ export function WelcomeScreen({
               maxFontSizeMultiplier={1.6}
               style={[T.title, largeText && styles.wordmarkLargeText, { color: theme.ink }]}
             >
-              Vamp
+              ShadeMax
             </Text>
           </View>
           <Pressable
@@ -356,7 +356,7 @@ export function WelcomeScreen({
   );
 }
 
-function makeStyles(theme: VampTheme) {
+function makeStyles(theme: ShadeMaxTheme) {
   return StyleSheet.create({
     safe: { flex: 1, backgroundColor: theme.canvas },
     content: { flex: 1, paddingHorizontal: 24, paddingTop: 8, paddingBottom: 16 },

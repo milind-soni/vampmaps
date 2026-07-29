@@ -15,7 +15,7 @@ import { GlassView, isGlassEffectAPIAvailable } from "expo-glass-effect";
 import { SymbolView, type SymbolViewProps } from "expo-symbols";
 
 import { CheckIcon, LeafIcon, SunIcon } from "./icons";
-import { R, T, useVampTheme, type VampTheme } from "./theme";
+import { R, T, useShadeMaxTheme, type ShadeMaxTheme } from "./theme";
 
 export function AppSymbol({
   name,
@@ -56,7 +56,7 @@ export function GlassSurface({
   style?: StyleProp<ViewStyle>;
   clear?: boolean;
 }) {
-  const theme = useVampTheme();
+  const theme = useShadeMaxTheme();
   const [reduceTransparency, setReduceTransparency] = useState(false);
 
   useEffect(() => {
@@ -111,7 +111,7 @@ export function RouteRow({
   selected: boolean;
   onPress: () => void;
 }) {
-  const theme = useVampTheme();
+  const theme = useShadeMaxTheme();
   const { fontScale } = useWindowDimensions();
   const largeText = fontScale >= 1.35;
   const styles = useMemo(() => routeStyles(theme), [theme]);
@@ -181,7 +181,7 @@ export function LightPreferenceSlider({
   minimumIdx?: number;
   disabled?: boolean;
 }) {
-  const theme = useVampTheme();
+  const theme = useShadeMaxTheme();
   const selected = options[selectedIdx] ?? options[Math.floor(options.length / 2)];
   const sunUnavailable = minimumIdx > 0;
   const selectedColor = selectedIdx < Math.floor(options.length / 2)
@@ -254,7 +254,7 @@ export function LightPreferenceSlider({
 }
 
 export function RouteLegend() {
-  const theme = useVampTheme();
+  const theme = useShadeMaxTheme();
   return (
     <GlassSurface style={s.legend} clear>
       <View style={[s.legendLine, { backgroundColor: theme.routeShade }]} />
@@ -266,7 +266,7 @@ export function RouteLegend() {
 }
 
 export function StartDot() {
-  const theme = useVampTheme();
+  const theme = useShadeMaxTheme();
   return (
     <View style={[s.startOuter, { borderColor: theme.accent, backgroundColor: theme.surface }]}>
       <View style={[s.startInner, { backgroundColor: theme.accent }]} />
@@ -275,7 +275,7 @@ export function StartDot() {
 }
 
 export function EndDot({ children }: { children?: React.ReactNode }) {
-  const theme = useVampTheme();
+  const theme = useShadeMaxTheme();
   return (
     <View style={[s.endCircle, { backgroundColor: theme.accentDeep, borderColor: theme.surface }]}>
       {children}
@@ -283,7 +283,7 @@ export function EndDot({ children }: { children?: React.ReactNode }) {
   );
 }
 
-function routeStyles(theme: VampTheme) {
+function routeStyles(theme: ShadeMaxTheme) {
   return StyleSheet.create({
     route: {
       minHeight: 66,

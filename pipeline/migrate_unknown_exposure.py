@@ -1,4 +1,4 @@
-"""Migrate legacy Vamp graphs from a 100% exposure fallback to ``-1``.
+"""Migrate legacy ShadeMax graphs from a 100% exposure fallback to ``-1``.
 
 Older graphs used ``100`` when a modeled raster sample could not be mapped to
 an open-air walking edge. That was conservative for shade-only routing, but it

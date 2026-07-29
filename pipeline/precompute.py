@@ -1,4 +1,4 @@
-"""Vamp precompute pipeline.
+"""ShadeMax precompute pipeline.
 
 Generates a voxel city model for the target area (keyless: OSM buildings,
 OSM land cover/trees, flat DEM), ray-traces per-hour sun exposure at
