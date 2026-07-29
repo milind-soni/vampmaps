@@ -23,14 +23,16 @@ export function meltLabel(pct: number): string {
 export function savingsCopy(extraMin: number, sunSavedMin: number): string {
   const extra = Math.max(0, Math.round(extraMin));
   const saved = Math.max(0, Math.round(sunSavedMin));
-  if (saved <= 0) return "Same sun either way — it's your call ☁️";
-  if (extra <= 0) return `Shady route saves ${saved} sun-min and it's not even slower 😎`;
-  return `+${extra} min buys you ${saved} fewer minutes in the sun 🧊`;
+  if (saved <= 0) return "Same sun either way — it's your call";
+  if (extra <= 0) return `Shady saves ${saved} sun-min and isn't any slower`;
+  return `+${extra} min buys you ${saved} fewer minutes in the sun`;
 }
 
-/** Sun-aversion presets. Weight multiplies exposure in the edge cost. */
-export const MOODS = [
-  { key: "chill", emoji: "😎", label: "Chill", weight: 1 },
-  { key: "melting", emoji: "🥵", label: "Melting", weight: 2.5 },
-  { key: "vampire", emoji: "🧛", label: "Vampire", weight: 15 },
+/** Symmetric, discrete route-light preferences for the stepped slider. */
+export const LIGHT_PREFERENCES = [
+  { key: "most-sun", label: "Most sun", value: -1 },
+  { key: "more-sun", label: "More sun", value: -0.5 },
+  { key: "balanced", label: "Balanced", value: 0 },
+  { key: "more-shade", label: "More shade", value: 0.5 },
+  { key: "most-shade", label: "Most shade", value: 1 },
 ] as const;

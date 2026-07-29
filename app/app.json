@@ -1,36 +1,42 @@
 {
   "expo": {
-    "name": "Vampmaps",
-    "slug": "vampmaps",
+    "name": "Vamp",
+    "slug": "vamp",
     "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./assets/splash-icon.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#FFF7ED"
-    },
+    "icon": "./assets/vamp-sun-horizon-icon.png",
+    "userInterfaceStyle": "automatic",
     "ios": {
-      "supportsTablet": true,
+      "supportsTablet": false,
       "bundleIdentifier": "com.milindsoni.vampmaps",
       "infoPlist": {
-        "NSLocationWhenInUseUsageDescription": "Vampmaps uses your location to start shade routes from where you're standing."
+        "NSLocationWhenInUseUsageDescription": "Vamp uses your location to start shade routes from where you're standing."
       }
     },
     "android": {
       "package": "com.milindsoni.vampmaps",
       "adaptiveIcon": {
-        "backgroundColor": "#FFF7ED",
-        "foregroundImage": "./assets/android-icon-foreground.png",
-        "backgroundImage": "./assets/android-icon-background.png",
-        "monochromeImage": "./assets/android-icon-monochrome.png"
+        "backgroundColor": "#4E234B",
+        "foregroundImage": "./assets/vamp-sun-horizon-icon.png"
       },
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": true
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/vamp-sun-horizon-icon.png"
     },
-    "plugins": ["expo-font"]
+    "plugins": [
+      "expo-font",
+      "expo-status-bar",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/vamp-sun-horizon-icon.png",
+          "resizeMode": "contain",
+          "backgroundColor": "#F7F5F2",
+          "dark": {
+            "backgroundColor": "#141214"
+          }
+        }
+      ]
+    ]
   }
 }

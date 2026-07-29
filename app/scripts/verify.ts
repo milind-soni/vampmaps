@@ -2,7 +2,14 @@
 import * as fs from "fs";
 import * as path from "path";
 
-import { buildGraph, GraphData, nearestNode, shortestRoute, seasonDate } from "../src/graph";
+import {
+  boundedPreferenceRoute,
+  buildGraph,
+  GraphData,
+  nearestNode,
+  shortestRoute,
+  seasonDate,
+} from "../src/graph";
 import { meltPct } from "../src/melt";
 
 const dataPath = path.join(__dirname, "..", "assets", "singapore.json");
@@ -31,25 +38,34 @@ const date = seasonDate(dates, new Date());
 const hourIdx = hours.indexOf(13);
 
 const fastest = shortestRoute(g, a.node, b.node, date, hourIdx, 0);
-const shady = shortestRoute(g, a.node, b.node, date, hourIdx, 4);
-
-if (!fastest || !shady) {
+if (!fastest) {
   throw new Error("ROUTE FAILED — graph may be disconnected");
 }
+const sunny = boundedPreferenceRoute(g, a.node, b.node, date, hourIdx, -1, fastest);
+const shady = boundedPreferenceRoute(g, a.node, b.node, date, hourIdx, 1, fastest);
 
 console.log(`\nroute test (${date} 13:00):`);
 console.log(
   `  fastest: ${fastest.distM.toFixed(0)} m, ${fastest.walkMin.toFixed(1)} min, ` +
-    `${fastest.sunMin.toFixed(1)} sun-min, melt ${meltPct(fastest.sunMin)}%`,
+    `${fastest.sunMin.toFixed(1)} sun-min, unknown ${fastest.unknownMin.toFixed(1)} min, ` +
+    `melt ${meltPct(fastest.sunMin)}%`,
+);
+console.log(
+  `  sunny:   ${sunny.distM.toFixed(0)} m, ${sunny.walkMin.toFixed(1)} min, ` +
+    `${sunny.sunMin.toFixed(1)} sun-min, unknown ${sunny.unknownMin.toFixed(1)} min`,
 );
 console.log(
   `  shady:   ${shady.distM.toFixed(0)} m, ${shady.walkMin.toFixed(1)} min, ` +
-    `${shady.sunMin.toFixed(1)} sun-min, melt ${meltPct(shady.sunMin)}%`,
+    `${shady.sunMin.toFixed(1)} sun-min, unknown ${shady.unknownMin.toFixed(1)} min`,
 );
 
 const ok =
+  sunny.sunMin >= fastest.sunMin - 1e-9 &&
+  sunny.distM >= fastest.distM - 1e-9 &&
   shady.sunMin <= fastest.sunMin + 1e-9 &&
   shady.distM >= fastest.distM - 1e-9 &&
+  sunny.unknownMin <= fastest.unknownMin + 1e-9 &&
+  shady.unknownMin <= fastest.unknownMin + 1e-9 &&
   fastest.segments.length > 0;
-console.log(ok ? "\nOK: shady route trades distance for less sun" : "\nWARN: unexpected route relation");
+console.log(ok ? "\nOK: both light preferences move in the expected direction" : "\nWARN: unexpected route relation");
 process.exit(ok ? 0 : 1);

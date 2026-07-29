@@ -5,6 +5,7 @@ node_modules/
 
 # Expo
 .expo/
+.expo-go/
 dist/
 web-build/
 expo-env.d.ts
@@ -39,3 +40,6 @@ yarn-error.*
 # generated native folders
 /ios
 /android
+
+# Revyl/design verification artifacts (screenshots, videos)
+artifacts/

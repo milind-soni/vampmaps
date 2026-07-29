@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "cities": [
+    {
+      "id": "singapore-cbd",
+      "name": "Singapore CBD",
+      "center": { "lat": 1.284, "lon": 103.848 },
+      "timezone": "Asia/Singapore",
+      "file_prefix": "sg",
+      "aliases": ["singapore", "sg"]
+    },
+    {
+      "id": "new-york-midtown",
+      "name": "New York — Midtown Manhattan",
+      "center": { "lat": 40.758, "lon": -73.9855 },
+      "timezone": "America/New_York",
+      "aliases": ["new-york", "nyc"]
+    },
+    {
+      "id": "london-westminster",
+      "name": "London — Westminster",
+      "center": { "lat": 51.5074, "lon": -0.1278 },
+      "timezone": "Europe/London",
+      "aliases": ["london"]
+    },
+    {
+      "id": "tokyo-shibuya",
+      "name": "Tokyo — Shibuya",
+      "center": { "lat": 35.6595, "lon": 139.7005 },
+      "timezone": "Asia/Tokyo",
+      "aliases": ["tokyo"]
+    },
+    {
+      "id": "sydney-cbd",
+      "name": "Sydney CBD",
+      "center": { "lat": -33.8688, "lon": 151.2093 },
+      "timezone": "Australia/Sydney",
+      "aliases": ["sydney"]
+    },
+    {
+      "id": "barcelona-eixample",
+      "name": "Barcelona — Eixample",
+      "center": { "lat": 41.3937, "lon": 2.1649 },
+      "timezone": "Europe/Madrid",
+      "aliases": ["barcelona"]
+    },
+    {
+      "id": "mexico-city-centro",
+      "name": "Mexico City — Centro",
+      "center": { "lat": 19.4326, "lon": -99.1332 },
+      "timezone": "America/Mexico_City",
+      "aliases": ["mexico-city", "cdmx"]
+    },
+    {
+      "id": "cape-town-cbd",
+      "name": "Cape Town CBD",
+      "center": { "lat": -33.9249, "lon": 18.4241 },
+      "timezone": "Africa/Johannesburg",
+      "aliases": ["cape-town"]
+    }
+  ]
+}

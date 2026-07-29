@@ -1,5 +1,7 @@
 .venv/
 data/cache/
+cache/
+tmp/
 __pycache__/
 *.pyc
 node_modules/

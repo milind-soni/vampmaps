@@ -1,0 +1,41 @@
+# Self-hosted Overpass API for the Vamp precompute pipeline.
+#
+# The public Overpass mirrors are rate-limited, queued, and sometimes
+# unreachable; every new-area precompute makes 5-6 queries against them.
+# This instance serves the same queries locally with no limits.
+#
+# First start downloads and imports the extract (minutes for a region).
+# The container then flips to serve mode on its own; `restart` covers the
+# exit between the two phases.
+#
+#   docker compose up -d
+#   curl 'http://127.0.0.1:12345/api/interpreter?data=[out:json];node(1);out;'
+#
+# Then run the pipeline with:
+#   OVERPASS_API_URL=http://127.0.0.1:12345/api/interpreter \
+#     ./.venv/bin/python pipeline/precompute.py --city singapore-cbd --meta-canopy
+#
+# To cover a different part of the world, change OVERPASS_PLANET_URL (any
+# Geofabrik extract) and remove the overpass-db volume to force a re-import:
+#   docker compose down -v && docker compose up -d
+# For worldwide coverage on a server, use OVERPASS_MODE=clone instead of a
+# regional extract (~300 GB disk, no planet import).
+
+services:
+  overpass:
+    image: wiktorn/overpass-api
+    container_name: vamp-overpass
+    environment:
+      OVERPASS_MODE: init
+      OVERPASS_PLANET_URL: https://download.geofabrik.de/asia/malaysia-singapore-brunei-latest.osm.pbf
+      OVERPASS_DIFF_URL: https://download.geofabrik.de/asia/malaysia-singapore-brunei-updates/
+      OVERPASS_RULES_LOAD: 10
+      OVERPASS_MAX_TIMEOUT: 300
+    volumes:
+      - overpass-db:/db
+    ports:
+      - "12345:80"
+    restart: unless-stopped
+
+volumes:
+  overpass-db:
